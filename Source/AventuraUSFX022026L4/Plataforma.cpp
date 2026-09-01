@@ -1,3 +1,7 @@
+// LABORATORIO 04 - SIS457
+// GRUPO 4
+// Plataformas con movimientos independientes y eliminacion aleatoria
+
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Plataforma.h"
@@ -10,14 +14,13 @@ APlataforma::APlataforma()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	
+
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> PlataformaMeshAsset(
 		TEXT("StaticMesh'/Game/StarterContent/Shapes/Shape_Plane.Shape_Plane'")
 	);
 
 	mallaPlataforma =
 		CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MallaPlataforma"));
-
 	RootComponent = mallaPlataforma;
 
 	if (PlataformaMeshAsset.Succeeded())
@@ -55,7 +58,7 @@ APlataforma::APlataforma()
 
 	movimientoEjes = FVector(1.0f, 0.0f, 0.0f);
 
-	
+
 	bMover = false;
 }
 
@@ -63,7 +66,7 @@ void APlataforma::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
+
 	posicionInicial = GetActorLocation();
 }
 
@@ -72,15 +75,15 @@ void APlataforma::ConfigurarMovimiento(int32 Tipo)
 	// 10 combinaciones
 	FVector TiposMovimiento[10] =
 	{
-		FVector(1.0f, 0.0f, 0.0f),   
-		FVector(0.0f, 1.0f, 0.0f),   
-		FVector(0.0f, 0.0f, 1.0f),   
+		FVector(1.0f, 0.0f, 0.0f),
+		FVector(0.0f, 1.0f, 0.0f),
+		FVector(0.0f, 0.0f, 1.0f),
 
-		FVector(1.0f, 1.0f, 0.0f),   
-		FVector(1.0f, 0.0f, 1.0f),   
-		FVector(0.0f, 1.0f, 1.0f),   
+		FVector(1.0f, 1.0f, 0.0f),
+		FVector(1.0f, 0.0f, 1.0f),
+		FVector(0.0f, 1.0f, 1.0f),
 
-		FVector(1.0f, 1.0f, 1.0f),   
+		FVector(1.0f, 1.0f, 1.0f),
 
 		FVector(1.0f, 0.5f, 0.0f),
 		FVector(0.5f, 1.0f, 0.5f),
@@ -94,7 +97,7 @@ void APlataforma::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	
+
 	if (!bMover)
 	{
 		return;
@@ -104,7 +107,7 @@ void APlataforma::Tick(float DeltaTime)
 
 	FVector Diferencia = posicionActual - posicionInicial;
 
-	
+
 	if (Diferencia.X >= movimientoLimitesMaximos.X)
 	{
 		movimientoDireccion.X = -1.0f;
@@ -152,7 +155,4 @@ void APlataforma::IniciarMovimiento()
 void APlataforma::DetenerMovimiento()
 {
 	bMover = false;
-
-
-	SetActorLocation(posicionInicial);
 }

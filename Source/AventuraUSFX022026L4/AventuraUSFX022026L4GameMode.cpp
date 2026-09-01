@@ -1,9 +1,19 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+// LABORATORIO 04 - SIS457
+// GRUPO 4
+// Control de 200 plataformas, temporizadores y eliminacion aleatoria
+
+
 #include "AventuraUSFX022026L4GameMode.h"
 #include "AventuraUSFX022026L4Pawn.h"
-#include "Plataforma.h"
 #include "Engine/World.h"
+#include "Plataforma.h"
+#include "PlataformaAerea.h"
+#include "PlataformaAcuatica.h"
+#include "PlataformaTerrestre.h"
+#include "PlataformaSubterranea.h"
+
 
 AAventuraUSFX022026L4GameMode::AAventuraUSFX022026L4GameMode()
 {
@@ -29,10 +39,10 @@ void AAventuraUSFX022026L4GameMode::BeginPlay()
 	Parametros.SpawnCollisionHandlingOverride =
 		ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-	
+
 	aPlataformas.Reserve(200);
 
-	
+
 
 	for (int32 i = 0; i < 200; i++)
 	{
@@ -51,16 +61,13 @@ void AAventuraUSFX022026L4GameMode::BeginPlay()
 
 		if (IsValid(Plataforma))
 		{
-			
+
 			Plataforma->ConfigurarMovimiento(i % 10);
 
-			
+
 			aPlataformas.Add(Plataforma);
 		}
 	}
-
-	
-
 	GetWorldTimerManager().SetTimer(
 		TimerMovimiento,
 		this,
@@ -72,13 +79,13 @@ void AAventuraUSFX022026L4GameMode::BeginPlay()
 
 void AAventuraUSFX022026L4GameMode::IniciarMovimiento()
 {
-	
+
 	if (aPlataformas.Num() == 0)
 	{
 		return;
 	}
 
-	
+
 	for (APlataforma* Plataforma : aPlataformas)
 	{
 		if (IsValid(Plataforma))
@@ -87,7 +94,7 @@ void AAventuraUSFX022026L4GameMode::IniciarMovimiento()
 		}
 	}
 
-	
+
 
 	GetWorldTimerManager().SetTimer(
 		TimerEliminar,
@@ -110,7 +117,7 @@ void AAventuraUSFX022026L4GameMode::DetenerMovimiento()
 {
 	GetWorldTimerManager().ClearTimer(TimerEliminar);
 
-	
+
 	if (aPlataformas.Num() == 0)
 	{
 		return;
