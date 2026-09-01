@@ -1,10 +1,5 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-// LABORATORIO 04 - SIS457
-// GRUPO 4
-// Control de 200 plataformas, temporizadores y eliminacion aleatoria
-
-
 #include "AventuraUSFX022026L4GameMode.h"
 #include "AventuraUSFX022026L4Pawn.h"
 #include "Engine/World.h"
@@ -14,11 +9,9 @@
 #include "PlataformaTerrestre.h"
 #include "PlataformaSubterranea.h"
 
-
 AAventuraUSFX022026L4GameMode::AAventuraUSFX022026L4GameMode()
 {
-	DefaultPawnClass =
-		AAventuraUSFX022026L4Pawn::StaticClass();
+	DefaultPawnClass = AAventuraUSFX022026L4Pawn::StaticClass();
 }
 
 void AAventuraUSFX022026L4GameMode::BeginPlay()
@@ -33,58 +26,77 @@ void AAventuraUSFX022026L4GameMode::BeginPlay()
 	}
 
 	FRotator Rotacion(0.0f, 0.0f, 0.0f);
-
 	FActorSpawnParameters Parametros;
 
-	Parametros.SpawnCollisionHandlingOverride =
-		ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	Parametros.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
+	aPlataformas.Reserve(25);
 
-	aPlataformas.Reserve(200);
-
-
-
-	for (int32 i = 0; i < 200; i++)
+	for (int32 i = 0; i < 10; i++)
 	{
-		FVector SpawnLocation(
-			FMath::RandRange(-1500.0f, 1500.0f),
-			FMath::RandRange(-1500.0f, 1500.0f),
-			FMath::RandRange(1200.0f, 1600.0f)
-		);
+		int32 Fila = i / 5;
+		int32 Columna = i % 5;
 
-		APlataforma* Plataforma =
-			World->SpawnActor<APlataforma>(
-				SpawnLocation,
-				Rotacion,
-				Parametros
-				);
+		FVector SpawnLocation(-800.0f + Columna * 400.0f, -800.0f + Fila * 400.0f, 1400.0f);
+
+		APlataformaAerea* Plataforma = World->SpawnActor<APlataformaAerea>(SpawnLocation, Rotacion, Parametros);
 
 		if (IsValid(Plataforma))
 		{
-
-			Plataforma->ConfigurarMovimiento(i % 10);
-
-
 			aPlataformas.Add(Plataforma);
 		}
 	}
-	GetWorldTimerManager().SetTimer(
-		TimerMovimiento,
-		this,
-		&AAventuraUSFX022026L4GameMode::IniciarMovimiento,
-		5.0f,
-		false
-	);
+
+	for (int32 i = 0; i < 6; i++)
+	{
+		FVector SpawnLocation(-1000.0f + i * 400.0f, 200.0f, 100.0f);
+
+		APlataformaTerrestre* Plataforma = World->SpawnActor<APlataformaTerrestre>(SpawnLocation, Rotacion, Parametros);
+
+		if (IsValid(Plataforma))
+		{
+			aPlataformas.Add(Plataforma);
+		}
+	}
+
+	for (int32 i = 0; i < 4; i++)
+	{
+		int32 Fila = i / 2;
+		int32 Columna = i % 2;
+
+		FVector SpawnLocation(-200.0f + Columna * 400.0f, 600.0f + Fila * 400.0f, -400.0f);
+
+		APlataformaSubterranea* Plataforma = World->SpawnActor<APlataformaSubterranea>(SpawnLocation, Rotacion, Parametros);
+
+		if (IsValid(Plataforma))
+		{
+			aPlataformas.Add(Plataforma);
+		}
+	}
+
+	for (int32 i = 0; i < 5; i++)
+	{
+		FVector SpawnLocation(-800.0f + i * 400.0f, 1400.0f, 300.0f);
+
+		APlataformaAcuatica* Plataforma = World->SpawnActor<APlataformaAcuatica>(SpawnLocation, Rotacion, Parametros);
+
+		if (IsValid(Plataforma))
+		{
+			aPlataformas.Add(Plataforma);
+		}
+	}
+
+	GetWorldTimerManager().SetTimer(TimerMovimiento, this, &AAventuraUSFX022026L4GameMode::IniciarMovimiento, 5.0f, false);
+
+	GetWorldTimerManager().SetTimer(TimerEliminarHija, this, &AAventuraUSFX022026L4GameMode::EliminarUnaPlataformaPorHija, 5.0f, true);
 }
 
 void AAventuraUSFX022026L4GameMode::IniciarMovimiento()
 {
-
 	if (aPlataformas.Num() == 0)
 	{
 		return;
 	}
-
 
 	for (APlataforma* Plataforma : aPlataformas)
 	{
@@ -94,30 +106,68 @@ void AAventuraUSFX022026L4GameMode::IniciarMovimiento()
 		}
 	}
 
+	GetWorldTimerManager().SetTimer(TimerMovimiento, this, &AAventuraUSFX022026L4GameMode::DetenerMovimiento, 10.0f, false);
+}
 
+void AAventuraUSFX022026L4GameMode::EliminarUnaPlataformaPorHija()
+{
+	for (int32 i = 0; i < aPlataformas.Num(); i++)
+	{
+		APlataformaAerea* Aerea = Cast<APlataformaAerea>(aPlataformas[i]);
 
-	GetWorldTimerManager().SetTimer(
-		TimerEliminar,
-		this,
-		&AAventuraUSFX022026L4GameMode::EliminarPlataforma,
-		0.3f,
-		true
-	);
+		if (IsValid(Aerea))
+		{
+			Aerea->Destroy();
+			aPlataformas.RemoveAt(i);
+			break;
+		}
+	}
 
-	GetWorldTimerManager().SetTimer(
-		TimerMovimiento,
-		this,
-		&AAventuraUSFX022026L4GameMode::DetenerMovimiento,
-		10.0f,
-		false
-	);
+	for (int32 i = 0; i < aPlataformas.Num(); i++)
+	{
+		APlataformaTerrestre* Terrestre = Cast<APlataformaTerrestre>(aPlataformas[i]);
+
+		if (IsValid(Terrestre))
+		{
+			Terrestre->Destroy();
+			aPlataformas.RemoveAt(i);
+			break;
+		}
+	}
+
+	for (int32 i = 0; i < aPlataformas.Num(); i++)
+	{
+		APlataformaSubterranea* Subterranea = Cast<APlataformaSubterranea>(aPlataformas[i]);
+
+		if (IsValid(Subterranea))
+		{
+			Subterranea->Destroy();
+			aPlataformas.RemoveAt(i);
+			break;
+		}
+	}
+
+	for (int32 i = 0; i < aPlataformas.Num(); i++)
+	{
+		APlataformaAcuatica* Acuatica = Cast<APlataformaAcuatica>(aPlataformas[i]);
+
+		if (IsValid(Acuatica))
+		{
+			Acuatica->Destroy();
+			aPlataformas.RemoveAt(i);
+			break;
+		}
+	}
+
+	if (aPlataformas.Num() == 0)
+	{
+		GetWorldTimerManager().ClearTimer(TimerEliminarHija);
+		GetWorldTimerManager().ClearTimer(TimerMovimiento);
+	}
 }
 
 void AAventuraUSFX022026L4GameMode::DetenerMovimiento()
 {
-	GetWorldTimerManager().ClearTimer(TimerEliminar);
-
-
 	if (aPlataformas.Num() == 0)
 	{
 		return;
@@ -131,42 +181,5 @@ void AAventuraUSFX022026L4GameMode::DetenerMovimiento()
 		}
 	}
 
-	GetWorldTimerManager().SetTimer(
-		TimerMovimiento,
-		this,
-		&AAventuraUSFX022026L4GameMode::IniciarMovimiento,
-		5.0f,
-		false
-	);
-}
-
-void AAventuraUSFX022026L4GameMode::EliminarPlataforma()
-{
-	if (aPlataformas.Num() == 0)
-	{
-		GetWorldTimerManager().ClearTimer(TimerEliminar);
-		return;
-	}
-
-	int32 Indice =
-		FMath::RandRange(
-			0,
-			aPlataformas.Num() - 1
-		);
-
-	APlataforma* Plataforma =
-		aPlataformas[Indice];
-
-	if (IsValid(Plataforma))
-	{
-		Plataforma->Destroy();
-	}
-
-	aPlataformas.RemoveAt(Indice);
-
-	if (aPlataformas.Num() == 0)
-	{
-		GetWorldTimerManager().ClearTimer(TimerEliminar);
-		GetWorldTimerManager().ClearTimer(TimerMovimiento);
-	}
+	GetWorldTimerManager().SetTimer(TimerMovimiento, this, &AAventuraUSFX022026L4GameMode::IniciarMovimiento, 5.0f, false);
 }

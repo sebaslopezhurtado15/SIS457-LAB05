@@ -1,8 +1,5 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-// LABORATORIO 04 - SIS457
-// GRUPO 4
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -25,16 +22,13 @@ protected:
 
 public:
 
-
 	UPROPERTY()
 		TArray<APlataforma*> aPlataformas;
 
-
 	FTimerHandle TimerMovimiento;
-
-	FTimerHandle TimerEliminar;
+	FTimerHandle TimerEliminarHija;
 
 	void IniciarMovimiento();
 	void DetenerMovimiento();
-	void EliminarPlataforma();
+	void EliminarUnaPlataformaPorHija();
 };

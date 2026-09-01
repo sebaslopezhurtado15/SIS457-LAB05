@@ -17,8 +17,8 @@ APlataformaSubterranea::APlataformaSubterranea()
 	}
 
 	movimientoEjes = FVector(1.0f, 0.0f, 1.0f);
-	movimientoLimitesMaximos = FVector(500.0f, 0.0f, 500.0f);
-	movimientoLimitesMinimos = FVector(0.0f, 0.0f, 200.0f);
-	movimientoVelocidades = FVector(300.0f, 0.0f, 300.0f);
+	movimientoLimitesMaximos = FVector(0.0f, 0.0f, 900.0f);
+	movimientoLimitesMinimos = FVector(0.0f, 0.0f, 0.0f);
+	movimientoVelocidades = FVector(0.0f, 0.0f, 500.0f);
 	movimientoDireccion = FVector(1.0f, 0.0f, 1.0f);
 }
