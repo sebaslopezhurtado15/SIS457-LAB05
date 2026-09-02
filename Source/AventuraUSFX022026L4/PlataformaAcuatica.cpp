@@ -6,6 +6,7 @@
 APlataformaAcuatica::APlataformaAcuatica()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	TipoPlataforma = ETipoPlataforma::PLATAFORMA_ACUATICA;
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> PlataformaMeshAsset(
 		TEXT("StaticMesh'/Game/StarterContent/Shapes/Shape_NarrowCapsule.Shape_NarrowCapsule'")

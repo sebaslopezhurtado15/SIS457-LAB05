@@ -20,15 +20,19 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+
 public:
 
 	UPROPERTY()
 		TArray<APlataforma*> aPlataformas;
 
 	FTimerHandle TimerMovimiento;
-	FTimerHandle TimerEliminarHija;
+	FTimerHandle TimerEliminarUnaPlataformaPorHija;
+	FTimerHandle TimerReposicionarPlataformas;
+
 
 	void IniciarMovimiento();
 	void DetenerMovimiento();
 	void EliminarUnaPlataformaPorHija();
+	void ReposicionarPlataformas();
 };

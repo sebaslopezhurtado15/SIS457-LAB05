@@ -10,6 +10,15 @@
 
 class UStaticMeshComponent;
 
+enum class ETipoPlataforma
+{
+	PLATAFORMA_TERRESTRE,
+	PLATAFORMA_AEREA,
+	PLATAFORMA_SUBTERRANEA,
+	PLATAFORMA_ACUATICA,
+};
+
+
 UCLASS()
 class AVENTURAUSFX022026L4_API APlataforma : public AActor
 {
@@ -23,9 +32,10 @@ public:
 	// Asigna uno de los 10 tipos de movimiento
 	void ConfigurarMovimiento(int32 Tipo);
 
-	// 
 	void IniciarMovimiento();
 	void DetenerMovimiento();
+
+	ETipoPlataforma TipoPlataforma;
 
 protected:
 	virtual void BeginPlay() override;
