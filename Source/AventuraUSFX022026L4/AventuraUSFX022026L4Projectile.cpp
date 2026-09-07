@@ -41,5 +41,7 @@ void AAventuraUSFX022026L4Projectile::OnHit(UPrimitiveComponent* HitComp, AActor
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 20.0f, GetActorLocation());
 	}
 
+	UE_LOG(LogTemp, Warning, TEXT("COLISION BLOCK: proyectil golpeo una plataforma"));
+
 	Destroy();
 }

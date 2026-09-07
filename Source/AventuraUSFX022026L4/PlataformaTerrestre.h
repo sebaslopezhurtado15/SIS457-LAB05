@@ -6,6 +6,8 @@
 #include "Plataforma.h"
 #include "PlataformaTerrestre.generated.h"
 
+class UBoxComponent;
+
 
 UCLASS()
 class AVENTURAUSFX022026L4_API APlataformaTerrestre : public APlataforma
@@ -14,4 +16,25 @@ class AVENTURAUSFX022026L4_API APlataformaTerrestre : public APlataforma
 
 public:
 	APlataformaTerrestre();
+
+	UPROPERTY(VisibleAnywhere)
+		UBoxComponent* ZonaOverlap;
+
+	UFUNCTION()
+		void AlEntrarZona(
+			UPrimitiveComponent* Componente,
+			AActor* OtroActor,
+			UPrimitiveComponent* OtroComponente,
+			int32 OtroIndice,
+			bool bFromSweep,
+			const FHitResult& SweepResult
+		);
+
+	UFUNCTION()
+		void AlSalirZona(
+			UPrimitiveComponent* Componente,
+			AActor* OtroActor,
+			UPrimitiveComponent* OtroComponente,
+			int32 OtroIndice
+		);
 };
