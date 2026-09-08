@@ -32,7 +32,6 @@ public:
 
 
 	void IniciarMovimiento();
-	void DetenerMovimiento();
 	void EliminarUnaPlataformaPorHija();
 	void ReposicionarPlataformas();
 };

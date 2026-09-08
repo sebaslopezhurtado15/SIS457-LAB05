@@ -142,7 +142,7 @@ void AAventuraUSFX022026L4GameMode::IniciarMovimiento()
 		}
 	}
 
-	GetWorldTimerManager().SetTimer(TimerMovimiento, this, &AAventuraUSFX022026L4GameMode::DetenerMovimiento, 10.0f, false);
+	
 }
 
 void AAventuraUSFX022026L4GameMode::EliminarUnaPlataformaPorHija()
@@ -225,20 +225,3 @@ void AAventuraUSFX022026L4GameMode::ReposicionarPlataformas()
 
 }
 
-void AAventuraUSFX022026L4GameMode::DetenerMovimiento()
-{
-	if (aPlataformas.Num() == 0)
-	{
-		return;
-	}
-
-	for (APlataforma* Plataforma : aPlataformas)
-	{
-		if (IsValid(Plataforma))
-		{
-			Plataforma->DetenerMovimiento();
-		}
-	}
-
-	GetWorldTimerManager().SetTimer(TimerMovimiento, this, &AAventuraUSFX022026L4GameMode::IniciarMovimiento, 5.0f, false);
-}

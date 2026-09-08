@@ -27,8 +27,9 @@ APlataforma::APlataforma()
 	{
 		mallaPlataforma->SetStaticMesh(PlataformaMeshAsset.Object);
 	}
-
 	mallaPlataforma->SetMobility(EComponentMobility::Movable);
+
+	//perfil de colisión BlockAll
 	mallaPlataforma->SetCollisionProfileName(TEXT("BlockAll"));
 
 	// Valores aleatorios de plataforma
@@ -135,14 +136,7 @@ void APlataforma::Tick(float DeltaTime)
 		movimientoDireccion.Z = 1.0f;
 	}
 
-	FVector posicionNueva =
-		posicionActual +
-		(
-			movimientoEjes *
-			movimientoDireccion *
-			movimientoVelocidades *
-			DeltaTime
-			);
+	FVector posicionNueva = posicionActual + (movimientoEjes *movimientoDireccion *movimientoVelocidades *DeltaTime);
 
 	SetActorLocation(posicionNueva);
 }

@@ -25,7 +25,10 @@ AAventuraUSFX022026L4Pawn::AAventuraUSFX022026L4Pawn()
 	ShipMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ShipMesh"));
 	RootComponent = ShipMeshComponent;
 	ShipMeshComponent->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
+
+	//detecta ek overlap
 	ShipMeshComponent->SetGenerateOverlapEvents(true);
+
 	ShipMeshComponent->SetStaticMesh(ShipMesh.Object);
 	
 	// Cache our sound effect

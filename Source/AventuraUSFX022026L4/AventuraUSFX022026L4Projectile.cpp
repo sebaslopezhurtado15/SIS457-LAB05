@@ -33,6 +33,7 @@ AAventuraUSFX022026L4Projectile::AAventuraUSFX022026L4Projectile()
 	InitialLifeSpan = 3.0f;
 }
 
+
 void AAventuraUSFX022026L4Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	// Only add impulse and destroy projectile if we hit a physics
@@ -41,6 +42,7 @@ void AAventuraUSFX022026L4Projectile::OnHit(UPrimitiveComponent* HitComp, AActor
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 20.0f, GetActorLocation());
 	}
 
+	//mensaje
 	UE_LOG(LogTemp, Warning, TEXT("COLISION BLOCK: proyectil golpeo una plataforma"));
 
 	Destroy();

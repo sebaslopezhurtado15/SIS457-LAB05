@@ -21,20 +21,12 @@ public:
 		UBoxComponent* ZonaOverlap;
 
 	UFUNCTION()
-		void AlEntrarZona(
-			UPrimitiveComponent* Componente,
-			AActor* OtroActor,
-			UPrimitiveComponent* OtroComponente,
-			int32 OtroIndice,
-			bool bFromSweep,
-			const FHitResult& SweepResult
-		);
+		void AlEntrarZona(UPrimitiveComponent* Componente,AActor* OtroActor,UPrimitiveComponent* OtroComponente,int OtroIndice,bool bFromSweep,const FHitResult& SweepResult);
 
 	UFUNCTION()
-		void AlSalirZona(
-			UPrimitiveComponent* Componente,
-			AActor* OtroActor,
-			UPrimitiveComponent* OtroComponente,
-			int32 OtroIndice
-		);
+		void AlSalirZona(UPrimitiveComponent* Componente,AActor* OtroActor,UPrimitiveComponent* OtroComponente,int OtroIndice);
+
+	//efecto billar
+	UFUNCTION()
+		void AlRecibirImpacto(UPrimitiveComponent* ComponenteGolpeado,AActor* OtroActor,UPrimitiveComponent* OtroComponente,FVector ImpulsoNormal,const FHitResult& Hit);
 };
